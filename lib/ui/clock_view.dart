@@ -71,7 +71,7 @@ class ClockPainter extends CustomPainter {
       ..color = Colors.white;
 
     /// Clock Minutes Hand Paint
-    var minuteHand = Paint()
+    var outerLine = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round
@@ -96,17 +96,29 @@ class ClockPainter extends CustomPainter {
     /// Draw Minutes Hand
     var minHandX = centerX + 45 * cos(dateTime.minute * 8 * pi / 180);
     var minHandY = centerX + 45 * sin(dateTime.minute * 8 * pi / 180);
-    print(minHandX);
-    print(minHandY);
-    _drawOuterLine(canvas, minuteHand);
+
+    _drawOuterLine(canvas, outerLine, size);
+
     // canvas.drawLine(centerPoint, Offset(minHandX, minHandY), minuteHand);
   }
 
-  _drawOuterLine(Canvas canvas, Paint minuteHand) {
-    canvas.drawLine(const Offset(0, 0), Offset(200, 0), minuteHand);
-    canvas.drawLine(const Offset(0, 200), Offset(200, 200), minuteHand);
-    canvas.drawLine(const Offset(200, 200), Offset(200, 0), minuteHand);
-    canvas.drawLine(const Offset(0, 0), Offset(0, 200), minuteHand);
+  _drawOuterLine(Canvas canvas, Paint outerLine, Size size) {
+    /// Top Line
+    canvas.drawLine(Offset(size.width, size.height - size.height * 0.05),
+        Offset(size.height, size.width - size.width * 0.95), outerLine);
+
+    /// Left Line
+    canvas.drawLine(const Offset(10, 0), Offset(190, 0), outerLine);
+
+    /// Right Line
+    canvas.drawLine(const Offset(10, 200), Offset(190, 200), outerLine);
+
+    /// Bottom Line
+    canvas.drawLine(const Offset(0, 10), Offset(0, 190), outerLine);
+  }
+
+  getRadians(double angle) {
+    return angle * pi / 180;
   }
 
   @override
